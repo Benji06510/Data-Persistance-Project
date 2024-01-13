@@ -30,7 +30,6 @@ public class UIHandler : MonoBehaviour
     public void StoreName(string input)
     {
         playerName = input;
-        Debug.Log(playerName);
         ScoreManager.userName = playerName;
     }
 }

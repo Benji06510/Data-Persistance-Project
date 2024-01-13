@@ -11,6 +11,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
     public static string highScore;
+    public static int highScoreScore;
     public static int lastScore;
     public static string userName;
     public static bool hasHighScore;
@@ -38,13 +39,18 @@ public class ScoreManager : MonoBehaviour
     public void LoadHighScore()
     {
         string path = Application.persistentDataPath + "/savefile.json";
+
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            highScore = "Best Score : " + data.player + " : " + data.score;
+            highScore = data.player + " : " + data.score;
             hasHighScore = true;
+            highScoreScore = data.score;
+
+            // Debuging
+            Debug.Log("Debug du high score dans 'LoadHighScore : " + highScore);
         }
         else
         {
@@ -52,11 +58,11 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public void SaveHighScore()
+    public void SaveHighScore(int points)
     {
         SaveData data = new SaveData();
         data.player = userName;
-        data.score = MainManager.m_Points;
+        data.score = points;
 
         string json = JsonUtility.ToJson(data);
 
